@@ -9,12 +9,7 @@
        xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
        mc:Ignorable="d"
        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-      <Grid.RowDefinitions>
-        <RowDefinition Height="*"/>
-        <RowDefinition Height="*"/>
-      </Grid.RowDefinitions>
-      <TextBox x:Name="InputBox"></TextBox>
-      <avalonedit:TextEditor Grid.Row="1" x:Name="OutputBox"/>
+    <Grid Margin="4">
+      <avalonedit:TextEditor x:Name="TextEdit" FontSize="14pt"/>
   </Grid>
 </reactiveUi:ReactiveWindow>
