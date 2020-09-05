@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -20,6 +24,8 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ReactiveUI;
+using Path = System.IO.Path;
+
 
 namespace SpellyPerfApp
 {
@@ -72,13 +78,57 @@ namespace SpellyPerfApp
         }
         private string[] BadSpelling(string input)
         {
-            if (input.Contains("cheese"))
+            var wrongWords = new List<string>();
+
+            foreach (var inputWord in input.Split())
             {
-                return new[] { "cheese" };
+                if (!CorrectlySpelledWords().ToList().Contains(inputWord))
+                {
+                    if (!string.IsNullOrWhiteSpace(inputWord))
+                    {
+                        wrongWords.Add(inputWord);
+                    }
+                }
             }
-            else
+
+            return wrongWords.ToArray();
+        }
+
+        private IEnumerable<string> CorrectlySpelledWords()
+        {
+            return TitleCaseWordsInDictionary()
+                .Concat(UppercaseWordsInDictionary())
+                .Concat(LowercaseWordsInDictionary());
+        }
+
+        private IEnumerable<string> UppercaseWordsInDictionary()
+        {
+            foreach(var word in LowercaseWordsInDictionary())
             {
-                return new string[0];
+                yield return word.ToUpperInvariant();
+            }
+        }
+
+        private IEnumerable<string> TitleCaseWordsInDictionary()
+        {
+            foreach (var word in LowercaseWordsInDictionary())
+            {
+                var  textInfo = new CultureInfo("en-GB", false).TextInfo;
+                yield return textInfo.ToTitleCase(word);
+            }
+        }
+
+        private IEnumerable<string> LowercaseWordsInDictionary([CallerFilePath] string thisFilePath = "")
+        {
+            var wordsFile = Path.Combine(Path.GetDirectoryName(thisFilePath), "words.txt");
+
+            using (var stream = File.OpenText(wordsFile))
+            {
+                string line;
+                while (((line = stream.ReadLine()) != null))
+                {
+                    yield return line;
+                }
             }
         }
     }
