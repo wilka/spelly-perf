@@ -6,6 +6,7 @@
        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
        xmlns:local="clr-namespace:SpellyPerfApp"
        xmlns:reactiveUi="http://reactiveui.net"
+       xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
        mc:Ignorable="d"
        Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -14,6 +15,6 @@
         <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
       <TextBox x:Name="InputBox"></TextBox>
-      <TextBox Grid.Row="1"  x:Name="OutputBox" Background="CadetBlue"></TextBox>
+      <avalonedit:TextEditor Grid.Row="1" x:Name="OutputBox"/>
   </Grid>
 </reactiveUi:ReactiveWindow>
