@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpellyPerfApp", "SpellyPerfApp\SpellyPerfApp.csproj", "{0890F83B-9743-4D5D-B323-356313D725AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0890F83B-9743-4D5D-B323-356313D725AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0890F83B-9743-4D5D-B323-356313D725AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0890F83B-9743-4D5D-B323-356313D725AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0890F83B-9743-4D5D-B323-356313D725AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2A50E11F-A9BB-41CC-A257-C87069F5276F}
+	EndGlobalSection
+EndGlobal
