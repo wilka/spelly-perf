@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpellyPerfApp", "SpellyPerf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpellyPerfTests", "SpellyPerfTests\SpellyPerfTests.csproj", "{C07FFB65-EB78-4278-B5D1-819AE53FA72E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpellyPerfBenchmarks", "SpellyPerfBenchmarks\SpellyPerfBenchmarks.csproj", "{01D3485A-4BB9-4D79-BEC5-7DF35C672B92}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C07FFB65-EB78-4278-B5D1-819AE53FA72E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C07FFB65-EB78-4278-B5D1-819AE53FA72E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C07FFB65-EB78-4278-B5D1-819AE53FA72E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01D3485A-4BB9-4D79-BEC5-7DF35C672B92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01D3485A-4BB9-4D79-BEC5-7DF35C672B92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01D3485A-4BB9-4D79-BEC5-7DF35C672B92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01D3485A-4BB9-4D79-BEC5-7DF35C672B92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
