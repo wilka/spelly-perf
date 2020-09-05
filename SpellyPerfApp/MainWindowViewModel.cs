@@ -24,7 +24,5 @@ namespace SpellyPerfApp
 
         [ObservableAsProperty]
         public string[] SpellingMistakes { get; }
-
-        
     }
 }
