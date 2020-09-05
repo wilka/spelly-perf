@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 namespace SpellyPerfApp
 {
@@ -10,14 +11,29 @@ namespace SpellyPerfApp
     {
         public IEnumerable<string> GetMisspelledWords(string input)
         {
+            var wordLookups = new List<Task<string>>();
+
             foreach (var inputWord in (input ?? "").Split())
             {
-                if (!CorrectlySpelledWords().ToList().Contains(inputWord))
+                wordLookups.Add(Task.Run(() =>
                 {
-                    if (!string.IsNullOrWhiteSpace(inputWord))
+                    if (!CorrectlySpelledWords().ToList().Contains(inputWord))
                     {
-                        yield return inputWord;
+                        return inputWord;
                     }
+                    else
+                    {
+                        return string.Empty;
+                    }
+                }));
+            }
+
+            var completedTasks = Task.WhenAll(wordLookups);
+            foreach (var word in completedTasks.Result)
+            {
+                if (!string.IsNullOrWhiteSpace(word))
+                {
+                    yield return word;
                 }
             }
         }
