@@ -24,6 +24,7 @@ using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Highlighting.Xshd;
 using ReactiveUI;
+using Splat;
 using Path = System.IO.Path;
 
 
@@ -37,13 +38,17 @@ namespace SpellyPerfApp
         public MainWindow()
         {
             InitializeComponent();
-            ViewModel = new MainWindowViewModel();
-            
+            ViewModel = new MainWindowViewModel(Locator.Current.GetService<ISpellingService>());
+
             this.WhenActivated(disposableRegistration =>
             {
                 Observable.FromEventPattern(h => TextEdit.TextChanged += h, h => TextEdit.TextChanged -= h)
-                    .Select(x => ((TextEditor)x.Sender).Text)
-                    .Subscribe(currentText =>
+                    .Select(x => ((TextEditor) x.Sender).Text)
+                    .BindTo(ViewModel, vm => vm.InputText)
+                    .DisposeWith(disposableRegistration);
+
+                this.ViewModel.WhenAnyValue(vm => vm.SpellingMistakes)
+                    .Subscribe(spellingErrors =>
                     {
                         var color = new XshdColor(){Underline = true, Foreground = new SimpleHighlightingBrush(Colors.Red)};
 
@@ -51,7 +56,7 @@ namespace SpellyPerfApp
                         {
                             ColorReference = new XshdReference<XshdColor>(color),
                         };
-                        foreach (var word in BadSpelling(currentText))
+                        foreach (var word in spellingErrors)
                         {
                             keywords.Words.Add(word);
                         }
@@ -76,60 +81,6 @@ namespace SpellyPerfApp
                     .DisposeWith(disposableRegistration);
             });
         }
-        private string[] BadSpelling(string input)
-        {
-            var wrongWords = new List<string>();
-
-            foreach (var inputWord in input.Split())
-            {
-                if (!CorrectlySpelledWords().ToList().Contains(inputWord))
-                {
-                    if (!string.IsNullOrWhiteSpace(inputWord))
-                    {
-                        wrongWords.Add(inputWord);
-                    }
-                }
-            }
-
-            return wrongWords.ToArray();
-        }
-
-        private IEnumerable<string> CorrectlySpelledWords()
-        {
-            return TitleCaseWordsInDictionary()
-                .Concat(UppercaseWordsInDictionary())
-                .Concat(LowercaseWordsInDictionary());
-        }
-
-        private IEnumerable<string> UppercaseWordsInDictionary()
-        {
-            foreach(var word in LowercaseWordsInDictionary())
-            {
-                yield return word.ToUpperInvariant();
-            }
-        }
-
-        private IEnumerable<string> TitleCaseWordsInDictionary()
-        {
-            foreach (var word in LowercaseWordsInDictionary())
-            {
-                var  textInfo = new CultureInfo("en-GB", false).TextInfo;
-                yield return textInfo.ToTitleCase(word);
-            }
-        }
-
-        private IEnumerable<string> LowercaseWordsInDictionary([CallerFilePath] string thisFilePath = "")
-        {
-            var wordsFile = Path.Combine(Path.GetDirectoryName(thisFilePath), "words.txt");
-
-            using (var stream = File.OpenText(wordsFile))
-            {
-                string line;
-                while (((line = stream.ReadLine()) != null))
-                {
-                    yield return line;
-                }
-            }
-        }
+        
     }
 }

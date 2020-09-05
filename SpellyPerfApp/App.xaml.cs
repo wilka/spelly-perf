@@ -19,6 +19,7 @@ namespace SpellyPerfApp
         public App()
         {
             Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
+            Locator.CurrentMutable.Register<ISpellingService>(() => new SpellingService());
         }
     }
 }
