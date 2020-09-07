@@ -15,30 +15,7 @@ namespace SpellyPerfBenchmarks
         public static void Main(string[] args)
         {
             // Make sure you run this with `dotnet run -c Release` so you don't accidentally run the debug build
-
-            IConfig config = null;
-
-            while (config == null)
-            {
-                Console.WriteLine();
-                Console.WriteLine("Benchmark [t]ime only, or [m]emory and time?");
-                switch (Console.ReadKey().Key)
-                {
-                    case ConsoleKey.T:
-                        config = DefaultConfig.Instance;
-                        break;
-                    case ConsoleKey.M:
-                        config = DefaultConfig.Instance.AddDiagnoser(MemoryDiagnoser.Default);
-                        break;
-                    default:
-                        config = null;
-                        break;
-                }
-                Console.WriteLine();
-            }
-
-
-            var summary = BenchmarkRunner.Run(typeof(Program).Assembly, config);
+            BenchmarkRunner.Run(typeof(Program).Assembly, DefaultConfig.Instance.AddDiagnoser(MemoryDiagnoser.Default));
         }
 
         [ShortRunJob]
@@ -47,13 +24,13 @@ namespace SpellyPerfBenchmarks
             [ParamsSource(nameof(ValuesForTextToSpellCheck))]
             public string TextToSpellCheck { get; set; }
 
-            public static IEnumerable<string> ValuesForTextToSpellCheck() => new[] 
-                { 
-                    "Hello",
-                    "Hello there",
-                    "Hellooo",
-                    "Hellooo there and good day to you",
-                };
+            public static IEnumerable<string> ValuesForTextToSpellCheck => new[] 
+            { 
+                "Hello",
+                "Hello there",
+                "Hellooo",
+                "Hellooo to you",
+            };
 
             private SpellingService service = new SpellingService();
 
